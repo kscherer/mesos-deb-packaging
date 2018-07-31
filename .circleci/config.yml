@@ -8,8 +8,12 @@ jobs:
       MAKEFLAGS=-j8
     steps:
       - run:
-          name: Build builder image
-          command: mkdir /build/out && cd /build/out && ../build_mesos
+          name: Make Builder Output Directory
+          command: mkdir /build/out
+      - run:
+          name: Builder
+          command: ../build_mesos
+          working_directory: /build/out
       - store_artifacts:
           path: /build/out
           destination: bionic
