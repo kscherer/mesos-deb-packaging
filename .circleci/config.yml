@@ -1,0 +1,15 @@
+version: 2
+jobs:
+  bionic:
+    docker:
+      - image: mesosdebbuilder/mesos-deb-packaging:bionic
+    resource_class: xlarge
+    environment:
+      MAKEFLAGS=-j8
+    steps:
+      - run:
+          name: Build builder image
+          command: ./build_mesos
+      - store_artifacts:
+          path: .
+          destination: bionic
