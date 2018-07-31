@@ -1,0 +1,12 @@
+FROM ubuntu:bionic
+RUN apt-get update && apt-get install -y ruby ruby-dev python-dev autoconf automake git make libssl-dev libcurl4-openssl-dev libtool build-essential libapr1-dev openjdk-8-jdk-headless libsasl2-dev libsvn-dev libz-dev
+RUN apt-get update && apt-get install -y maven
+RUN gem install fpm
+RUN gem install package_cloud
+ENV MAINTAINER sargun@sargun.me
+#ENV MAKEFLAGS -j8
+ENV PATH ${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN mkdir /build
+COPY . /build
+WORKDIR /build
+ENTRYPOINT ["./build_mesos"]
