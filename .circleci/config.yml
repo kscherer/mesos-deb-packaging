@@ -9,9 +9,9 @@ jobs:
     steps:
       - run:
           name: Build builder image
-          command: ./build_mesos
+          command: mkdir /build/out && cd /build/out && ../build_mesos
       - store_artifacts:
-          path: .
+          path: /build/out
           destination: bionic
 
 workflows:
