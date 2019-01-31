@@ -3,26 +3,25 @@ jobs:
   bionic:
     docker:
       - image: kscherer/mesos-deb-packaging:bionic
-    resource_class: xlarge
     environment:
       MAKEFLAGS=-j8
     steps:
       - run:
-        name: Make Builder Output Directory
-        command: mkdir /build/out
+          name: Make Builder Output Directory
+          command: mkdir /build/out
 
       - run:
-        name: Builder
-        command: ../build_mesos --nominal-version $MESOS_TAG --repo https://gitbox.apache.org/repos/asf/mesos.git?tag=$MESOS_TAG --build-version 2.0.1 --rename
-        working_directory: /build/out
+          name: Builder
+          command: ../build_mesos --nominal-version $MESOS_TAG --repo https://gitbox.apache.org/repos/asf/mesos.git?tag=$MESOS_TAG --build-version 2.0.1 --rename
+          working_directory: /build/out
 
       - store_artifacts:
-        path: /build/mesos.*.egg
-        destination: bionic
+          path: /build/mesos.*.egg
+          destination: bionic
 
       - store_artifacts:
-        path: /build/mesos_*.deb
-        destination: bionic
+          path: /build/mesos_*.deb
+          destination: bionic
 
 workflows:
   version: 2
