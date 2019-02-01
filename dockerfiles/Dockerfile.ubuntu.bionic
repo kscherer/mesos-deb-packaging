@@ -1,6 +1,8 @@
 FROM ubuntu:bionic
 
-RUN apt-get update && apt-get install -y ruby ruby-dev python-dev autoconf automake \
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confnew" -qy install -y ruby \
+    ruby-dev python-dev autoconf automake \
     git make libssl-dev libcurl4-openssl-dev libtool build-essential libapr1-dev \
     openjdk-8-jdk-headless libsasl2-dev libsvn-dev libz-dev maven sudo vim-nox \
     && apt clean && rm -rf /var/lib/apt/lists/* && gem install fpm rake
