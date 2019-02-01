@@ -25,6 +25,6 @@ jobs:
 
 workflows:
   version: 2
-  build_debs:
+  build:
     jobs:
       - bionic
