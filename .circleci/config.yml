@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  bionic:
+  build:
     docker:
       - image: kmscherer/mesos-deb-packaging:bionic
     environment:
@@ -27,4 +27,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - bionic
+      - build
