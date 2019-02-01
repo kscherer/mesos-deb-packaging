@@ -2,7 +2,7 @@ version: 2
 jobs:
   bionic:
     docker:
-      - image: kscherer/mesos-deb-packaging:bionic
+      - image: kmscherer/mesos-deb-packaging:bionic
     environment:
       MAKEFLAGS=-j8
     steps:
