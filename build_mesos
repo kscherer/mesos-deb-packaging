@@ -57,6 +57,7 @@ function globals {
   extra_libs=''
   configure_flags=""
   rename=false
+  jobs=1
 }; globals
 
 function as_absolute {
@@ -80,6 +81,7 @@ function main {
       --nominal-version)        version="$2"       ; shift 2 ;;
       --build-version)          build_version="$2" ; shift 2 ;;
       --extra-libs)             extra_libs="$2"    ; shift 2 ;;
+      --jobs)                   jobs="$2"          ; shift 2 ;;
       --configure-flags)        configure_flags="$2"    ; shift 2 ;;
       *)                        err 'Argument error. Please see help.' ;;
     esac
@@ -113,7 +115,7 @@ function go {
   create_installation
   create_lib_symlinks
   pkg
-  if [[ ! $(configure_opts) =~ "--disable-python\>" ]]
+  if [[ ! $(configure_opts) =~ "--disable-python" ]]
   then
     save_python_egg
   fi
@@ -184,8 +186,9 @@ function build {(
     rel_src_dir=$(pwd | sed -e's:/[^/]\+:../:g')$src_dir
   fi
 
+  echo "configure $(configure_opts)"
   "$rel_src_dir"/configure $(configure_opts)
-  make
+  make -j "$jobs"
 )}
 
 function os_release {
@@ -254,8 +257,7 @@ function create_installation {(
   fi
   extra_libs
   init_scripts "$linux"
-  if [[ ! $(configure_opts) =~ "--disable-java\>" ]]
-  then
+  if [[ ! $(configure_opts) =~ "--disable-java" ]]; then
     jars
   fi
 )}
@@ -349,17 +351,18 @@ function deb_ {
   esac
 
   local opts=( -t deb
-               --deb-recommends zookeeper
-               --deb-recommends zookeeperd
-               --deb-recommends zookeeper-bin
-               -d 'java-runtime-headless | java2-runtime-headless | default-jre'
-               -d $libcurl_package
+               -d "$libcurl_package"
                -d libevent-dev
                -d libsvn1
                -d libsasl2-modules
                -d libcurl4-openssl-dev
                --after-install "$this/$asset_dir/mesos.postinst"
                --after-remove "$this/$asset_dir/mesos.postrm" )
+
+  if [[ ! $(configure_opts) =~ "--disable-java" ]]; then
+      opts+=(-d 'java-runtime-headless | java2-runtime-headless | default-jre')
+  fi
+
   pkgname="pkg"
   if $rename; then
     os_tag=${linux//[\/.]/} # convert "ubuntu/14.04" to "ubuntu1404"
