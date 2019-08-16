@@ -7,11 +7,10 @@ container:
 task:
   env:
     MESOS_TAG: 1.6.2
-    MAKEFLAGS: -j16
   build_script:
     - mkdir -p /build/out
     - cd /build/out
-    - "../build_mesos --nominal-version $MESOS_TAG --repo https://gitbox.apache.org/repos/asf/mesos.git?tag=$MESOS_TAG --build-version 2.0.1 --configure-flags ' --disable-java ' --rename"
+    - "../build_mesos --nominal-version $MESOS_TAG --repo https://gitbox.apache.org/repos/asf/mesos.git?tag=$MESOS_TAG --build-version 2.0.1 --configure-flags ' --disable-java ' --rename --jobs 8"
   deb_artifacts:
     path: "/build/*.deb"
   python_artifacts:
