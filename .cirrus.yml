@@ -1,0 +1,18 @@
+# mesos cpp builds needs a lot of memory
+container:
+  image: kmscherer/mesos-deb-packaging:bionic
+  cpu: 4
+  memory: 12
+
+task:
+  env:
+    MESOS_TAG: 1.6.2
+    MAKEFLAGS: -j4
+  build_script:
+    - mkdir -p /build/out
+    - cd /build/out
+    - "../build_mesos --nominal-version $MESOS_TAG --repo https://gitbox.apache.org/repos/asf/mesos.git?tag=$MESOS_TAG --build-version 2.0.1 --configure-flags ' --disable-java ' --rename"
+  deb_artifacts:
+    path: "/build/*.deb"
+  python_artifacts:
+    path: "/build/out/mesos-repo/build/src/python/dist/*.whl"
