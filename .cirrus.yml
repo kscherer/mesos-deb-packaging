@@ -2,12 +2,12 @@
 container:
   image: kmscherer/mesos-deb-packaging:bionic
   cpu: 8
-  memory: 12
+  memory: 24
 
 task:
   env:
     MESOS_TAG: 1.6.2
-    MAKEFLAGS: -j8
+    MAKEFLAGS: -j16
   build_script:
     - mkdir -p /build/out
     - cd /build/out
