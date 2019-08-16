@@ -188,7 +188,12 @@ function build {(
 
   echo "configure $(configure_opts)"
   "$rel_src_dir"/configure $(configure_opts)
-  make -j "$jobs"
+  if [ -z "$MAKEFLAGS" ]; then
+      make -j "$jobs"
+  else
+      make
+  fi
+
 )}
 
 function os_release {
