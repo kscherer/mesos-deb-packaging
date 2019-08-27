@@ -7,9 +7,9 @@ container:
 task:
   env:
     MESOS_TAG: 1.6.2
-    TMPDIR: /tmp
+    TMPDIR: /build/tmp
   build_script:
-    - mkdir -p /build/out
+    - mkdir -p /build/out /build/tmp
     - cd /build/out
     - "../build_mesos --nominal-version $MESOS_TAG --repo https://gitbox.apache.org/repos/asf/mesos.git?tag=$MESOS_TAG --build-version 2.0.1 --configure-flags ' --disable-java ' --rename --jobs 8"
   deb_artifacts:
