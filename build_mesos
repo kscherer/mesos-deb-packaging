@@ -188,7 +188,7 @@ function build {(
 
   echo "configure $(configure_opts)"
   "$rel_src_dir"/configure $(configure_opts)
-  if [ -z "$MAKEFLAGS" ]; then
+  if [ -z "${MAKEFLAGS-}" ]; then
       make -j "$jobs"
   else
       make
