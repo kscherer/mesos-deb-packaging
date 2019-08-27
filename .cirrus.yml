@@ -11,6 +11,7 @@ task:
     MAKEFLAGS: -j8
   build_script:
     - mkdir -p /build/out /build/tmp
+    - ln -sf /build /tmp/cirrus-ci-build/build
     - cd /build/out
     - "../build_mesos --nominal-version $MESOS_TAG --repo https://gitbox.apache.org/repos/asf/mesos.git?tag=$MESOS_TAG --build-version 2.0.1 --configure-flags ' --disable-java ' --rename"
   deb_artifacts:
