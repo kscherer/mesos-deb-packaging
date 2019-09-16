@@ -6,7 +6,7 @@ container:
 
 task:
   env:
-    MESOS_TAG: 1.6.2
+    MESOS_TAG: 1.7.2
     TMPDIR: /build/tmp
     MAKEFLAGS: -j8
   build_script:
